@@ -57,8 +57,8 @@ public class QueryServiceImpl implements QueryService {
                 .getClosestStation(ms.location);
         // third party historical data
         if (historySpecie != null) {
-            getSixMonthsHistory(stationId, specie, oms);
-            getOneYearHistory(stationId, specie, oms);
+            dataSet.sixMonthsAgo = getSixMonthsHistory(stationId, specie, oms);
+            dataSet.oneYearAgo = getOneYearHistory(stationId, specie, oms);
         }
         // own historical date
         dataSet.last = qIoTRepository.getLastMeasurement(stationId, specie);
