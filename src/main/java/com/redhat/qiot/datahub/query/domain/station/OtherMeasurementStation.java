@@ -8,9 +8,6 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
 public class OtherMeasurementStation {
-
-    @BsonId
-    public Object id;
     public String country;
     public String city;
     public Point location;
