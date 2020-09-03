@@ -1,5 +1,8 @@
 package com.redhat.qiot.datahub.query.domain.measurement;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class MeasurementHistoryId {
     public String date;
     public String country;

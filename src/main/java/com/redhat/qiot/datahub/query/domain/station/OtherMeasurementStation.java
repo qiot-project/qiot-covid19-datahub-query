@@ -1,8 +1,16 @@
 package com.redhat.qiot.datahub.query.domain.station;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+
 import com.mongodb.client.model.geojson.Point;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class OtherMeasurementStation {
+
+    @BsonId
+    public Object id;
     public String country;
     public String city;
     public Point location;

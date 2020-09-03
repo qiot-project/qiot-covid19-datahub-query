@@ -4,6 +4,9 @@ import org.bson.codecs.pojo.annotations.BsonId;
 
 import com.mongodb.client.model.geojson.Point;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 // @MongoEntity(collection = "measurementstation")
 public class MeasurementStation implements Comparable<MeasurementStation> {
     @BsonId

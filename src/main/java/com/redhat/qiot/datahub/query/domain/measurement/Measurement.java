@@ -2,6 +2,9 @@ package com.redhat.qiot.datahub.query.domain.measurement;
 
 import org.bson.codecs.pojo.annotations.BsonId;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class Measurement {
     @BsonId
     public MeasurementId id;

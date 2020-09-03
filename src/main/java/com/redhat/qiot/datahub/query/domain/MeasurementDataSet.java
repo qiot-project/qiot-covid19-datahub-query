@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.redhat.qiot.datahub.query.domain.measurement.Measurement;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class MeasurementDataSet {
     public Measurement last;
 
