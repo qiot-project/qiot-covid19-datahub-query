@@ -45,8 +45,8 @@ public class QIoTRepository {
     @ConfigProperty(name = "qiot.database.name")
     String DATABASE_NAME;
 
-//    @ConfigProperty(name = "qiot.measurement.grain.coarse.gas.name")
-//    String COLLECTION_NAME;
+    // @ConfigProperty(name = "qiot.measurement.grain.coarse.gas.name")
+    // String COLLECTION_NAME;
 
     @Inject
     Logger LOGGER;
@@ -81,10 +81,10 @@ public class QIoTRepository {
 
         // Create a CodecRegistry containing the PojoCodecProvider instance.
         codecProvider = PojoCodecProvider.builder()
-                .register("com.mongodb.client.model")
-                .register("com.redhat.qiot.datahub.query.domain")
-                .register("com.redhat.qiot.datahub.query.domain.measurement")
-                .register("com.redhat.qiot.datahub.query.domain.station")
+                .register("com.mongodb.client.model",
+                        "com.redhat.qiot.datahub.query.domain",
+                        "com.redhat.qiot.datahub.query.domain.measurement",
+                        "com.redhat.qiot.datahub.query.domain.station")
                 .automatic(true).build();
         codecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
@@ -122,7 +122,6 @@ public class QIoTRepository {
     // Instant max = utc.minus(1L, ChronoUnit.MINUTES).toInstant();
     // LOGGER.info("Date MAX = {}", max);
     // }
-
 
     public MeasurementStation queryMeasurementStation(int id) {
         LOGGER.info("Searching for Measurement Station with ID {}", id);
