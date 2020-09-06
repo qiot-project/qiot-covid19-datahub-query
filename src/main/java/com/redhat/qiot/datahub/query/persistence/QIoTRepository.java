@@ -111,19 +111,19 @@ public class QIoTRepository {
     // OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC)
     // .truncatedTo(ChronoUnit.MINUTES);
     // Instant min = utc.minus(2L, ChronoUnit.MINUTES).toInstant();
-    // LOGGER.info("Date MIN = {}", min);
+    // LOGGER.debug("Date MIN = {}", min);
     // Instant max = utc.minus(1L, ChronoUnit.MINUTES).toInstant();
-    // LOGGER.info("Date MAX = {}", max);
+    // LOGGER.debug("Date MAX = {}", max);
     // }
 
     public MeasurementStation queryMeasurementStation(int id) {
-        LOGGER.info("Searching for Measurement Station with ID {}", id);
+        LOGGER.debug("Searching for Measurement Station with ID {}", id);
         MeasurementStation ms = msCollection.find(Filters.eq("_id", id))
                 .first();
         if (ms == null)
-            LOGGER.info("\n\nNo Measurement Station with ID {}\n", id);
+            LOGGER.debug("\n\nNo Measurement Station with ID {}\n", id);
         else
-            LOGGER.info("\n\nFound MeasurementStation {}\n", ms);
+            LOGGER.debug("\n\nFound MeasurementStation {}\n", ms);
         return ms;
     }
 
@@ -131,7 +131,7 @@ public class QIoTRepository {
         // FindIterable<OtherMeasurementStation> omsFilter = omsCollection
         // .find(Filters.near("location", refPoint, null, null));
         // for (OtherMeasurementStation oms : omsFilter)
-        // logger.info("The closest Measurement Station is {}", oms);
+        // logger.debug("The closest Measurement Station is {}", oms);
         return omsCollection
                 .find(Filters.near("location", refPoint, null, null)).limit(1)
                 .first();
@@ -151,11 +151,11 @@ public class QIoTRepository {
                 )//
         ).sort(Sorts.descending("time")).limit(1).first();
         if (mh == null)
-            LOGGER.info(
+            LOGGER.debug(
                     "\n\nNo MeasurementHistory found for date={} and country={} and city={} and specie={}\n",
                     date, country, city, specie);
         else
-            LOGGER.info("\n\nFound MeasurementHistory {}\n", mh);
+            LOGGER.debug("\n\nFound MeasurementHistory {}\n", mh);
         return mh;
     }
 
@@ -173,11 +173,11 @@ public class QIoTRepository {
                 )//
         ).limit(1).first();
         if (mh == null)
-            LOGGER.info(
+            LOGGER.debug(
                     "\n\nNo MeasurementHistory found for date={} and country={} and city={} and specie={}\n",
                     date, country, city, specie);
         else
-            LOGGER.info("\n\nFound MeasurementHistory {}\n", mh);
+            LOGGER.debug("\n\nFound MeasurementHistory {}\n", mh);
         return mh;
     }
 
@@ -188,11 +188,11 @@ public class QIoTRepository {
                         Filters.eq("specie", specie.toString())))
                 .sort(Sorts.descending("time")).limit(1).first();
         if (last == null)
-            LOGGER.info(
+            LOGGER.debug(
                     "\n\nNo Measurement found for stationId={} and specie={}\n",
                     stationId, specie);
         else
-            LOGGER.info("\n\nFound last Measurement {}\n", last);
+            LOGGER.debug("\n\nFound last Measurement {}\n", last);
         return last;
     }
 
@@ -210,7 +210,7 @@ public class QIoTRepository {
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
             values.add(m);
-        LOGGER.info("\n\nLastHourByMinute {}",
+        LOGGER.debug("\n\nLastHourByMinute {}",
                 Arrays.toString(values.toArray()));
         return values;
     }
@@ -228,7 +228,7 @@ public class QIoTRepository {
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
             values.add(m);
-        LOGGER.info("\n\nLastDayByHour {}", Arrays.toString(values.toArray()));
+        LOGGER.debug("\n\nLastDayByHour {}", Arrays.toString(values.toArray()));
         return values;
     }
 
@@ -245,7 +245,7 @@ public class QIoTRepository {
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
             values.add(m);
-        LOGGER.info("\n\nLastMonthByDay {}", Arrays.toString(values.toArray()));
+        LOGGER.debug("\n\nLastMonthByDay {}", Arrays.toString(values.toArray()));
         return values;
     }
 
@@ -259,7 +259,7 @@ public class QIoTRepository {
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
             values.add(m);
-        LOGGER.info("\n\nAllMonths {}", Arrays.toString(values.toArray()));
+        LOGGER.debug("\n\nAllMonths {}", Arrays.toString(values.toArray()));
         return values;
     }
 }
