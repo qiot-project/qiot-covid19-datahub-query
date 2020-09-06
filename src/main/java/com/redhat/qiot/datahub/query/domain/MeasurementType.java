@@ -2,6 +2,9 @@ package com.redhat.qiot.datahub.query.domain;
 
 import com.redhat.qiot.datahub.query.domain.measurement.MeasurementHistoryType;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public enum MeasurementType {
 
     /**

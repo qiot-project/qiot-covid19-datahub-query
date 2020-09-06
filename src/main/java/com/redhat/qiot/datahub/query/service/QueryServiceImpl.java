@@ -17,7 +17,6 @@ import com.redhat.qiot.datahub.query.domain.MeasurementType;
 import com.redhat.qiot.datahub.query.domain.measurement.Measurement;
 import com.redhat.qiot.datahub.query.domain.measurement.MeasurementHistory;
 import com.redhat.qiot.datahub.query.domain.measurement.MeasurementHistoryType;
-import com.redhat.qiot.datahub.query.domain.measurement.MeasurementId;
 import com.redhat.qiot.datahub.query.domain.station.MeasurementStation;
 import com.redhat.qiot.datahub.query.domain.station.OtherMeasurementStation;
 import com.redhat.qiot.datahub.query.persistence.QIoTRepository;
@@ -95,14 +94,11 @@ public class QueryServiceImpl implements QueryService {
 
     private Measurement historyToMeasurement(int stationId,
             MeasurementType specie, OffsetDateTime utc, MeasurementHistory h) {
-        MeasurementId mId = new MeasurementId();
         Measurement m = new Measurement();
 
-        mId.stationId = stationId;
-        mId.year = utc.getYear();
-        mId.month = utc.getMonthValue();
-        mId.specie = specie.toString();
-        m.id = mId;
+        m.stationId = stationId;
+        m.time = utc.toInstant();
+        m.specie = specie;
 
         m.avg = h.median;
         m.min = h.min;

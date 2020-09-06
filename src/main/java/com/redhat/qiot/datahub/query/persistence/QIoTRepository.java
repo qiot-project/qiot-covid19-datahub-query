@@ -1,6 +1,5 @@
 package com.redhat.qiot.datahub.query.persistence;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +28,6 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.geojson.Point;
-import com.redhat.qiot.datahub.query.domain.MeasurementDataSet;
 import com.redhat.qiot.datahub.query.domain.MeasurementType;
 import com.redhat.qiot.datahub.query.domain.measurement.Measurement;
 import com.redhat.qiot.datahub.query.domain.measurement.MeasurementHistory;
@@ -97,20 +95,15 @@ public class QIoTRepository {
         msCollection = database
                 .getCollection("measurementstation", MeasurementStation.class)
                 .withCodecRegistry(codecRegistry);
-        mhCollection = database
-                .getCollection("measurementhistory", MeasurementHistory.class)
+        mhCollection = database.getCollection("mh", MeasurementHistory.class)
                 .withCodecRegistry(codecRegistry);
-        mgmCollection = database
-                .getCollection("measurementbyminute", Measurement.class)
+        mgmCollection = database.getCollection("a_minute", Measurement.class)
                 .withCodecRegistry(codecRegistry);
-        hgmCollection = database
-                .getCollection("measurementbyhour", Measurement.class)
+        hgmCollection = database.getCollection("a_hour", Measurement.class)
                 .withCodecRegistry(codecRegistry);
-        dgmCollection = database
-                .getCollection("measurementbyday", Measurement.class)
+        dgmCollection = database.getCollection("a_day", Measurement.class)
                 .withCodecRegistry(codecRegistry);
-        zgmCollection = database
-                .getCollection("measurementbymonth", Measurement.class)
+        zgmCollection = database.getCollection("a_month", Measurement.class)
                 .withCodecRegistry(codecRegistry);
     }
 
@@ -151,10 +144,10 @@ public class QIoTRepository {
                 .format(DateTimeFormatter.ISO_LOCAL_DATE);
         MeasurementHistory mh = mhCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.date", date), //
-                        Filters.eq("_id.country", country), //
-                        Filters.eq("_id.city", city), //
-                        Filters.eq("_id.specie", specie.toString())//
+                        Filters.eq("date", date), //
+                        Filters.eq("country", country), //
+                        Filters.eq("city", city), //
+                        Filters.eq("specie", specie.toString())//
                 )//
         ).sort(Sorts.descending("time")).limit(1).first();
         if (mh == null)
@@ -173,10 +166,10 @@ public class QIoTRepository {
                 .format(DateTimeFormatter.ISO_LOCAL_DATE);
         MeasurementHistory mh = mhCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.date", date), //
-                        Filters.eq("_id.country", country), //
-                        Filters.eq("_id.city", city), //
-                        Filters.eq("_id.specie", specie.toString())//
+                        Filters.eq("date", date), //
+                        Filters.eq("country", country), //
+                        Filters.eq("city", city), //
+                        Filters.eq("specie", specie.toString())//
                 )//
         ).limit(1).first();
         if (mh == null)
@@ -191,8 +184,8 @@ public class QIoTRepository {
     public Measurement getLastMeasurement(int stationId,
             MeasurementType specie) {
         Measurement last = mgmCollection
-                .find(Filters.and(Filters.eq("_id.stationId", stationId),
-                        Filters.eq("_id.specie", specie.toString())))
+                .find(Filters.and(Filters.eq("stationId", stationId),
+                        Filters.eq("specie", specie.toString())))
                 .sort(Sorts.descending("time")).limit(1).first();
         if (last == null)
             LOGGER.info(
@@ -209,9 +202,10 @@ public class QIoTRepository {
                 ChronoUnit.HOURS);
         FindIterable<Measurement> dataIterable = mgmCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.stationId", stationId), //
-                        Filters.eq("_id.specie", specie.toString()), //
-                        Filters.gte("time", utc.toInstant()//
+                        Filters.gte("time", utc.toInstant()), //
+                        Filters.eq("stationId", stationId), //
+                        Filters.eq("specie", specie.toString() //
+
                         )));
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
@@ -227,9 +221,9 @@ public class QIoTRepository {
                 ChronoUnit.DAYS);
         FindIterable<Measurement> dataIterable = hgmCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.stationId", stationId), //
-                        Filters.eq("_id.specie", specie.toString()), //
-                        Filters.gte("time", utc.toInstant()//
+                        Filters.gte("time", utc.toInstant()), //
+                        Filters.eq("stationId", stationId), //
+                        Filters.eq("specie", specie.toString() //
                         )));
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
@@ -244,9 +238,9 @@ public class QIoTRepository {
                 ChronoUnit.MONTHS);
         FindIterable<Measurement> dataIterable = dgmCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.stationId", stationId), //
-                        Filters.eq("_id.specie", specie.toString()), //
-                        Filters.gte("time", utc.toInstant()//
+                        Filters.gte("time", utc.toInstant()), //
+                        Filters.eq("stationId", stationId), //
+                        Filters.eq("specie", specie.toString() //
                         )));
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
@@ -259,8 +253,8 @@ public class QIoTRepository {
             MeasurementType specie) {
         FindIterable<Measurement> dataIterable = zgmCollection.find(//
                 Filters.and(//
-                        Filters.eq("_id.stationId", stationId), //
-                        Filters.eq("_id.specie", specie.toString())//
+                        Filters.eq("stationId", stationId), //
+                        Filters.eq("specie", specie.toString())//
                 ));
         List<Measurement> values = new ArrayList<>();
         for (Measurement m : dataIterable)
