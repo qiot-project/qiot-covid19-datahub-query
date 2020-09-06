@@ -2,6 +2,8 @@ package com.redhat.qiot.datahub.query.domain.measurement;
 
 import java.time.Instant;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 import com.redhat.qiot.datahub.query.domain.MeasurementType;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -13,7 +15,9 @@ public class Measurement {
 //    public int day;
 //    public int hour;
 //    public int minute;
+    @JsonbTransient
     public int stationId;
+    @JsonbTransient
     public MeasurementType specie;
     public Instant time;
     public double min;
