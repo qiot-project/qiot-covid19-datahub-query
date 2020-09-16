@@ -77,6 +77,9 @@ public class QueryServiceImpl implements QueryService {
                 ChronoUnit.MONTHS);
         MeasurementHistory h = qIoTRepository.getSixMonthsAgo(oms.country,
                 oms.city, specie.getHistorySpecie());
+        
+        if(h==null)
+            return null;
 
         return historyToMeasurement(stationId, specie, utc, h);
     }
@@ -87,6 +90,9 @@ public class QueryServiceImpl implements QueryService {
                 ChronoUnit.YEARS);
         MeasurementHistory h = qIoTRepository.getOneYearAgo(oms.country,
                 oms.city, specie.getHistorySpecie());
+        
+        if(h==null)
+            return null;
 
         return historyToMeasurement(stationId, specie, utc, h);
 
